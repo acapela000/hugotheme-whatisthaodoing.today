@@ -1,0 +1,4 @@
+baseURL = 'https://whatisthaodoing.today/'
+languageCode = 'en-us'
+title = 'What am I doing today?'
+theme = "gokarna"
