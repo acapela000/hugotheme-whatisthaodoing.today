@@ -4,3 +4,12 @@
 [submodule "themes/gokarna"]
 	path = themes/gokarna
 	url = https://github.com/526avijitgupta/gokarna.git
+[submodule "themes/beautifulhugo"]
+	path = themes/beautifulhugo
+	url = https://github.com/halogenica/beautifulhugo
+[submodule "themes/hution"]
+	path = themes/hution
+	url = https://github.com/jorgechato/hution.git
+[submodule "themes/hugo-coder"]
+	path = themes/hugo-coder
+	url = https://github.com/luizdepra/hugo-coder.git

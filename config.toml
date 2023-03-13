@@ -1,4 +1,49 @@
 baseURL = 'https://whatisthaodoing.today/'
-languageCode = 'en-us'
-title = 'What am I doing today?'
-theme = "gokarna"
+languageCode = 'en'
+defaultContentLanguage = "en"
+title = 'Charlie Thao'
+theme = "hugo-coder"
+
+enableEmoji = true
+paginate = 10
+
+[markup.highlight]
+style = "github-dark"
+
+[params]
+author = "Charlie Thao"
+description = "ExampleSite description"
+keywords = "Blog,Portfolio,Hacking"
+info = ["developer"]
+dateFormat = "January 2, 2006"
+since = 2023
+colorScheme = "dark"
+avatarURL = "https://avatars.githubusercontent.com/u/106527693?v=4"
+maxSeeAlsoItems = 10
+
+[[params.social]]
+name = "Github"
+icon = "fa fa-2x fa-github"
+weight = 1
+url = "https://github.com/acapela000"
+
+[[params.social]]
+name = "LinkedIn"
+icon = "fa fa-2x fa-linkedin"
+weight = 2
+url = "https://www.linkedin.com/in/thao-truong-98b647223/"
+
+[[languages.en.menu.main]]
+name = "About me"
+weight = 1
+url = "about/"
+
+[[languages.en.menu.main]]
+name = "Blog"
+weight = 2
+url = "posts/"
+
+[[languages.en.menu.main]]
+name = "Projects"
+weight = 3
+url = "projects/"
