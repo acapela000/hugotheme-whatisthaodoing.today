@@ -1,0 +1,50 @@
+:root {
+    --ghost-accent-color: #00573D;
+    --color-primary: var(--ghost-accent-color);
+    --color-primary-dark: var(--ghost-accent-color);
+    --color-link: var(--ghost-accent-color);
+    --color-link-hover: var(--ghost-accent-color);
+    --bg-code: #fafafa;
+    --color-code: black;
+}
+
+body {
+    color: var(--body-color);
+    background-color: var(--bg);
+}
+
+.chroma {
+    color: var(--color-code)!important;
+}
+
+.chroma, .highlight {
+    width: 100%;
+}
+
+.meta {
+    margin-top: 2em;
+}
+
+.grid {
+    column-count: 2;
+    column-gap: 1rem;
+}
+
+figure {
+    display: inline-block;
+    margin: 0 0 0 0;
+    width: 100%;
+}
+
+img {
+    width: auto!important;
+    height: auto;
+}
+
+.avatar-author {
+    display: initial;
+}
+
+.story-title {
+    margin: 0 0 .4em;
+}
