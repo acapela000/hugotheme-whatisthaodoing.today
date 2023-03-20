@@ -13,6 +13,7 @@ pygmentsUseClasses = true
 post = "post/:title"
 
 [params]
+color = "#2E5A88"
 mainSections = ["post"]
 favicon = "/img/favicon.png"
 
