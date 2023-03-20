@@ -37,8 +37,12 @@ figure {
 }
 
 img {
-    width: auto!important;
+    max-width: 100%;
     height: auto;
+}
+
+.site-post {
+    min-height: calc(100vh - 15rem);
 }
 
 .avatar-author {
