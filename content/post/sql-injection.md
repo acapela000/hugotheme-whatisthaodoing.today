@@ -28,15 +28,15 @@ Following the instructions provided by tryhackme, I selected the region closest 
 
 and downloaded the OpenVPN.
 
-{{< figure src="/sql-injection-img/Download-OpenVPN.png" width="60%">}}
+{{< figure src="/sql-injection-img/Download-OpenVPN.png" width="80%">}}
 
 After opening the file, I connected to the VPN.
 
-{{< figure src="/sql-injection-img/OpenVPN-Connected.png" width="30%" height="30%">}}
+{{< figure src="/sql-injection-img/OpenVPN-Connected.png" width="45%" >}}
 
 *Note*: Sometimes, the connection may face problems such as the `server hostname [locked]` or connection timeout. 
 
-{{< figure src="/sql-injection-img/Connection-Timeout.png" width="30%" height="30%">}}
+{{< figure src="/sql-injection-img/Connection-Timeout.png" width="45%" >}}
 
 In such cases, I suggest trying the following:
 - Download the OpenVPN app again
@@ -51,7 +51,7 @@ Clicking on `Join room` and `Start machine`, I waited for the virtual machine to
 The journey officially started at this point.
 The challenge room appeared with all the tasks, and I was excited to tackle them immediately. 
 
-{{< figure src="/sql-injection-img/Challenge-room-all-tasks.png" width="70%" height="70%" >}}
+{{< figure src="/sql-injection-img/Challenge-room-all-tasks.png" width="100%" >}}
 
 Without reading the guidance from tryhackme first, I attempted to input `admin` for the `profileID` and `123` for the `password`. However, I was rejected because the account did not exist. 
 
