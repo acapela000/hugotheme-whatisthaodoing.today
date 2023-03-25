@@ -30,6 +30,23 @@ body {
     column-gap: 1rem;
 }
 
+.grid-preview {
+    column-count: 4;
+    column-gap: 1rem;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.col-big {
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
+
+.col-small {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
 figure {
     display: inline-block;
     margin: 0 0 0 0;
