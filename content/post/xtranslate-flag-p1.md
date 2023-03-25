@@ -1,6 +1,6 @@
 +++
 author = "Thao"
-title = "My first journey with hotfix of Vietnamese flag on Xtranslation"
+title = "My first journey with hotfix of Vietnamese flag on Xtranslation chap.1"
 date = "2023-03-18"
 description = "Hotfix contribution from Xtranslation"
 tags = [
@@ -27,29 +27,33 @@ I then searched for the image on Google to determine which country or location t
 
 {{< figure src="/hotfix-img/flag-search.png" width="80%">}}
 
-I learned that the flag belonged to the Virgin Islands in the United States. Consequently, I sought a way to change the flag by searching for the library of flag icons.
+I learned that the flag belonged to the Virgin Islands in the United States. Consequently, I sought a way to change the flag by searching for the code related to Xtranslate and found out that it was an open-source application.
+
+{{< figure src="/hotfix-img/github-search.png" width="70%">}}
+
+{{< figure src="/hotfix-img/flag-code-search.png" width="50%">}}
+
+```ts
+const langIconFile = langToFlagIconMap[locale] ?? locale;
+    return require(`flag-icons/flags/4x3/${langIconFile}.svg`);
+```
+
+Afterwards, I searched for the library of flag icons.
 
 {{< figure src="/hotfix-img/flag-lib-search.png" width="70%">}}
 
 In the library, when I searched for the prefix `vi` and `viet`, I found these flags.
+[Flag Icons](https://flagicons.lipis.dev/)
 
 {{< figure src="/hotfix-img/prefix-search.png" width="50%">}}
 
 {{< figure src="/hotfix-img/flag-prefix-abb.png" width="50%">}}
 
-Afterwards, I searched for the code related to Xtranslate and found out that it was an open-source application.
+Continuing my search, I discovered the code related to the flags. Fortunately, the application was built using Typescript, and since I am currently studying it, I was able to understand the code. 
 
-{{< figure src="/hotfix-img/github-search.png" width="70%">}}
-
-Continuing my search, I discovered the code related to the flags.
-
-{{< figure src="/hotfix-img/flag-code-search.png" width="50%">}}
-
-Fortunately, the application was built using Typescript, and since I am currently studying it, I was able to understand the code. 
+[Link code from line 237](https://github.com/ixrock/XTranslate/blob/4ad4b0927417234ca3aa19b7e04a8a4e6378b512/src/components/select-language/select-language.tsx#L237)
 
 ```ts
-// https://github.com/ixrock/XTranslate/blob/4ad4b0927417234ca3aa19b7e04a8a4e6378b512/src/components/select-language/select-language.tsx#L237
-
 export function getFlagIcon(locale: string): string | undefined {
   try {
     const langIconFile = langToFlagIconMap[locale] ?? locale;
@@ -58,12 +62,12 @@ export function getFlagIcon(locale: string): string | undefined {
     return undefined; // noop
   }
 ```
+
 Therefore, the string we use to search for a flag, for example, `ce`, serves as the `key` in a map. It will return the corresponding value, in this case, `ph` which refers to the Philippines. The flag of that country will then be displayed. 
 
+[Link code from line 206](https://github.com/ixrock/XTranslate/blob/4ad4b0927417234ca3aa19b7e04a8a4e6378b512/src/components/select-language/select-language.tsx#L206)
 
 ```ts
-https://github.com/ixrock/XTranslate/blob/4ad4b0927417234ca3aa19b7e04a8a4e6378b512/src/components/select-language/select-language.tsx#L206
-
 export const langToFlagIconMap: Record<string, string> = {
   "sq": "al", // Albanian
   "hy": "am", // Armenian
@@ -95,10 +99,13 @@ export const langToFlagIconMap: Record<string, string> = {
   "xh": "za", // Xhosa (South Africa)
 };
 ```
+
 In case the country string `key` we are searching for is not included in the list of countries, the `locale` variable will revert to the default value of `locale`. The following code snippet demonstrates this behavior:
+
 ```ts
 langToFlagIconMap[locale] ?? locale;
 ```
+
 As the list of countries above does not yet include `vi`, which represents the Vietnamese language in the translations list, the `locale` variable will default to `vi`. However, this conflicts with the flag icon for Virgin Islands, which also uses the `vi` code.
 
 So how to contact the author:hushed:? how to change the flag:anguished:?To resolve this issue, it is necessary to reach out to the author of the code to request an update. In doing so, the flag icon for Vietnam can be added to the list of country codes, ensuring that it is correctly displayed when `vi` is used as the `locale`. 
