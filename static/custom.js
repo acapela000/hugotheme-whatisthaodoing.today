@@ -6,14 +6,11 @@ var colors = [
     "#FDECEF",
     "#EDC79B",
     "#D57A66",
-
     "#EABDA8",
     "#61988E",
-
     "#CEC2FF",
     "#B3B3F1",
     "#DCB6D5",
-
     "#C7EAE4",
     "#A7E8BD",
     "#FCBCB8",
