@@ -1,6 +1,7 @@
 +++
 name = "Thao"
 location = "Japan"
+photo = "https://avatars.githubusercontent.com/u/106527693?v=4"
 +++
 
 Yo! What's up, tech world! With a basic input, chatGPT helped me have a cool self-introduction.Here it is! 
