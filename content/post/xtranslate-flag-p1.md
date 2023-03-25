@@ -10,6 +10,7 @@ tags = [
     "My first journey with hotfix",
 ]
 toc = false
+thumbnail = "https://blog.radware.com/wp-content/uploads/2021/06/AdobeStock_164909094-scaled.jpeg"
 +++
 
 ## How - When I found the hotfix
