@@ -14,10 +14,11 @@ body {
 }
 
 .chroma {
-    color: var(--color-code)!important;
+    color: var(--color-code) !important;
 }
 
-.chroma, .highlight {
+.chroma,
+.highlight {
     width: 100%;
 }
 
@@ -34,7 +35,8 @@ body {
     column-count: 4;
     column-gap: 1rem;
     display: grid;
-    grid-template-columns: auto auto auto;
+    margin-bottom: 2em;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .col-big {
@@ -43,8 +45,14 @@ body {
 }
 
 .col-small {
+    display: grid;
     grid-column-start: 1;
     grid-column-end: 2;
+}
+
+.thumbnail {
+    height: 190px;
+    max-height: 190px;
 }
 
 figure {
@@ -68,4 +76,11 @@ img {
 
 .story-title {
     margin: 0 0 .4em;
+}
+
+.summary {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
