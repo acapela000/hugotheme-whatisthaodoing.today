@@ -2,7 +2,7 @@
 author = "Thao"
 title = "My first journey with hotfix of Vietnamese flag on Xtranslation chap.1"
 date = "2023-03-18"
-description = "Hotfix contribution from Xtranslation"
+summary = "Hotfix contribution to Xtranslation"
 tags = [
     "github",
     "coding",
