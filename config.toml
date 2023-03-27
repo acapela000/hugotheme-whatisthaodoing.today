@@ -16,6 +16,7 @@ post = "post/:title"
 [params]
 color = "#2E5A88"
 customJS = ["/custom.js"]
+customCSS = ["/code-style.css"]
 
 mainSections = ["author/thao"]
 favicon = "/img/favicon.png"
