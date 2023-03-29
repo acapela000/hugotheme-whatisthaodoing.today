@@ -84,8 +84,6 @@ Wooo hooo:exclamation:!! I retrieved the flag for the third task:scream::laughin
 
 {{< figure src="/sql-injection-img/p2/ts3-THMflag.png" width="100%">}}
 
-
-
 As the same on task 1 and 2, I took the `THM{..}` to the answer place to officially complete the third challenge here.
 
 I hope you found this chapter informative and helpful. In the next chapter, I will discuss the fourth task - POST Injection. Thank you so much for reading:blush:!
