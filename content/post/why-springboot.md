@@ -3,7 +3,7 @@ author = "Thao"
 title = "Why using spring boot for my first application"
 emoji = ":sunny:"
 date = "2023-03-12"
-summary = "Web app to check weather forecast at a certain location"
+summary = "Deep into the various function of Spring Boot"
 tags = [
     "projects",
     "weather forecast",
