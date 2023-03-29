@@ -6,7 +6,7 @@ theme = "hution"
 paginate = 10
 
 enableEmoji = true
-googleAnalystics = "G-D3P4E875CK"
+googleAnalytics = "G-D3P4E875CK"
 pygmentsUseClasses = true
 
 # Router
