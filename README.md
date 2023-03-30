@@ -13,6 +13,7 @@ git submodule add <git-submodule> themes/<hugo-theme-name>
 git submodule update --remote
 git add .\themes\hution\    
 git commit -m "UPDATE theme"
+git push origin master
 ```
 
 ## Building static page
