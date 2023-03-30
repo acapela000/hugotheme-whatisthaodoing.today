@@ -27,6 +27,16 @@ tag = "tags"
 category = "categories"
 
 [[params.nav]]
+name = "GITHUB"
+icon = "fab fa-2x fa-github"
+url = "http://github.whatisthaodoing.today/"
+
+[[params.nav]]
+name = "LINKEDIN"
+icon = "fab fa-2x fa-linkedin"
+url = "http://linkedin.whatisthaodoing.today/"
+
+[[params.nav]]
 name = "About me"
 url = "author/thao"
 weight = 99
@@ -44,9 +54,9 @@ weight = 2
 [[params.social]]
 name = "github"
 icon = "fab fa-2x fa-github"
-url = "https://github.com/acapela000"
+url = "http://github.whatisthaodoing.today/"
 
 [[params.social]]
 name = "linkedin"
 icon = "fab fa-2x fa-linkedin"
-url = "https://www.linkedin.com/in/truong-thao-98b647223/"
+url = "http://linkedin.whatisthaodoing.today/"
