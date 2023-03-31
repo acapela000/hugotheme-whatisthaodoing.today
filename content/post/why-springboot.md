@@ -1,6 +1,6 @@
 +++
 author = "Thao"
-title = "Why using spring boot for my first application"
+title = "Why using Spring Boot for my first application"
 emoji = ""
 date = "2023-03-12"
 summary = "Beginning with numerous questions about the benefits of utilizing Spring Boot, I embarked on a journey to further comprehend the extensive and multifaceted capabilities of this versatile framework."
@@ -14,49 +14,70 @@ thumbnail = "https://www.mattianatali.it/static/f92c9ba1862b3cdd99d4928d52992aa2
 +++
 
 
-## Why Choose Spring Boot for Your First Application
+## Why Choose Spring Boot for My First Application
 
-As a beginner in Java development, choosing the right framework can be overwhelming. However, Spring Boot is a popular framework that simplifies web application development in Java. After researching and consulting with ChatGPT, I discovered the numerous benefits of using Spring Boot, including: 
+As a beginner in Java development, choosing the right framework may look like overwhelming. However, Spring Boot made thing become easier. Spring Boot is a popular framework that simplifies web application development in Java. After building [my first application](/tags/my-first-app/), I discovered the numerous benefits of using Spring Boot, including: 
 
-### 1. Easy Configuration:
+### 1. Easy Configuration
 
-Spring Boot's intuitive configuration approach simplifies setting up applications, eliminating the need for a lot of boilerplate code. In real-life projects, developers can easily set up database connections by adding a few lines of code to the `application.properties` file.
+Spring Boot's intuitive configuration approach simplifies setting up applications, eliminating the need for a lot of boilerplate code. In real-life projects, I can easily set up database connections by adding a few lines of code to the `application.properties` file.
 
 To illustrate, here are two examples:
 
-**First,** to set up a MySQL database connection:
+**First,** to set up a PostgreSQL database connection:
 
-1.Add the MySQL connector dependency to the `pom.xml` file:
+1.Add the PostgreSQL connector dependency to the `build.gradle` file:
 
-```xml
-<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-</dependency>
+```java
+var postgreSQLVersion = "42.5.4"
+
+dependencies {
+// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	implementation "org.postgresql:postgresql:${postgreSQLVersion}"
+}
 ```
 
 2.Add the following properties to the `application.properties` file to configure the database connection:
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/mydatabase
-spring.datasource.username=dbuser
+```java
+spring.security.oauth2.resourceserver.jwt.issuer-uri=https://dev-8xqmdxvrwga5qmoz.us.auth0.com/
+spring.security.oauth2.resourceserver.jwt.audience=http://localhost:8080/
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.username=dbusername
 spring.datasource.password=dbpassword
-spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.jpa.open-in-view=false
+
 ```
+In this example, I'm setting the database URL, username, and password for PostgreSQL. 
 
-3.In the Java code, use Spring Boot's `JdbcTemplate` class to execute SQL queries against the database:
+3.In the Java code, at controller I'm also injecting the `EntityManagerFactory` into my code using Spring Boot's `@Autowired` annotation to get the context with which I will create `entityManager` as `@PersistenceContext` for later being used to execute an `SELECT` statement to get a `Role` object from the database at repository.
 
+From `RoleController`
 ```java
 @Autowired
-private JdbcTemplate jdbcTemplate;
-
-public void saveProduct(Product product) {
-    String sql = "INSERT INTO products(name, price) VALUES (?, ?)";
-    jdbcTemplate.update(sql, product.getName(), product.getPrice());
+public RoleController(EntityManagerFactory entityManagerFactory) {
+    this.db = new RoleDatabase(entityManagerFactory);
 }
 ```
 
-In this example, I am setting the database URL, username, and password, as well as specifying the JDBC driver class for MySQL. I'm also injecting the `JdbcTemplate` bean into my code using Spring Boot's `@Autowired` annotation, and then using it to execute an `INSERT` statement to save a `Product` object to the database.
+From `RoleRepository`
+```java
+@PersistenceContext
+private EntityManager entityManager;
+
+public RoleDatabase(EntityManagerFactory entityManagerFactory) {
+    this.entityManager = entityManagerFactory.createEntityManager();
+}
+
+@Override
+public List<Role> getList(int limit) {
+    return entityManager.createQuery("select r from Role r", Role.class)
+            .setMaxResults(limit)
+            .getResultList();
+}
+```
 
 **Second,** to set up payment gateway integrations in an e-commerce application:
 
@@ -72,7 +93,7 @@ In this example, I am setting the database URL, username, and password, as well 
 
 2.Configure the payment gateway properties in the `application.properties` file:
 
-```properties
+```java
 payment.gateway.url=https://example.com/payment
 payment.gateway.username=your-username
 payment.gateway.password=your-password
@@ -104,87 +125,95 @@ Here, I'm injecting the `PaymentGatewayClient` bean into my code using Spring Bo
 These examples demonstrate how easy it can be to set up a payment gateway integration or to configure a database connection in a Spring Boot application. With just a few lines of code in the `application.properties` file, I can set up a database connection and start executing SQL queries in my Java code. Or I can configure the payment gateway endpoint and authentication credentials, and then start processing payments in my Java code using the payment gateway SDK.
 
 ### 2. Rapid Development:
-Spring Boot streamlines the development process by offering a plethora of pre-built features and libraries that can be seamlessly incorporated into an application. For instance, a company in need of a web application to manage their inventory can benefit from Spring Boot's readily available features to expedite the development process. With Spring Boot, developers can easily integrate a broad range of libraries and tools into their application, including Spring Data JPA for data persistence, Spring Security for authentication and authorization, and Thymeleaf for server-side HTML rendering.
+
+Spring Boot streamlines the development process by offering a plethora of pre-built features and libraries that can be seamlessly incorporated into an application. For instance, a company in need of a web application to manage their inventory can benefit from Spring Boot's readily available features to expedite the development process. With Spring Boot, developers can easily integrate a broad range of libraries and tools into their application, including Spring Data JPA for data persistence, Spring Security for authentication and authorization, and Lombok for reducing boilerplate code for model/data objects.
 
 **1.** To get started, the first step is to set up a new Spring Boot project via the Spring Initializr and include the necessary dependencies:
 
 - Spring Web (for building web applications)
 - Spring Data JPA (for working with databases)
-- H2 Database (for an in-memory database)
-- Thymeleaf (for server-side HTML rendering)
+- Spring Boot Lombok (for minimizing the unused code)
+- Swagger (for generating the REST API documents for RESTful web services)
 
-**2.** Creating a new `Item` entity class to represent the inventory items. This class includes annotations such as `@Entity`, `@Id`, and `@GeneratedValue` to define the primary key and other properties of the class. The `@Column` annotation is used to specify the name and constraints of the columns in the database table.
+**2.** Creating a new `User` entity class to represent the inventory users. This class includes annotations such as `@Entity`, `@Id`, and `@GeneratedValue` to define the primary key and other properties of the class. The `@Column` annotation is used to specify the name and constraints of the columns in the database table.
 
 ```java
 @Entity
-public class Item {
+@Getter
+@Setter
+@Table(name = "tc_user")
+public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
+
+    @Column(nullable = false, unique = true)
+    private String userName;//"unique"
+
+    @Column(nullable = false, unique = true)
+    private String email;//"unique"
 
     @Column(nullable = false)
-    private String name;
+    private String password;//"hashed"
 
-    @Column(nullable = false)
-    private Integer quantity;
-
-    // constructors, getters, and setters
+    // other joining table
+    // https://github.com/acapela000/WeatherForecastAPI/blob/basic-sql/src/main/java/com/charlieThao/weather_forcast_demo/model/User.java
 }
 ```
 
-**3.** Creating a new `ItemRepository` interface that extends Spring Data JPA's `JpaRepository` interface to provide basic CRUD (create, read, update, delete) operations for the `Item` entity:
+**3.** Creating a new `UserRepository` interface that extends Spring Data CRUD's `CrudRepository` interface to provide basic CRUD (create, read, update, delete) operations for the `User` entity:
 
 ```java
-@Repository
-public interface ItemRepository extends JpaRepository<Item, Long> {
+@RepositoryRestResource(collectionResourceRel = "userList", path = "user")
+@CrossOrigin("*")
+public interface UserRepository extends CrudRepository<User, String>, PagingAndSortingRepository<User, String> {
+
+    @RestResource(path = "/userName")
+    List<User> findByUserName(String userName);
+
+    @RestResource(path = "/email")
+    List<User> findByEmail(String email);
 }
 ```
 
-**4.** Then creating a new `ItemController` class to handle HTTP requests for managing inventory items. This class uses Spring Boot's `@Controller` and `@RequestMapping` annotations to define an HTTP endpoint. We inject the `ItemRepository` bean using the `@Autowired` annotation and use it to retrieve, create, update, and delete `Item` objects. Thymeleaf templates are used to render HTML views for listing, creating, and editing inventory items.
+**4.** Then creating a new `UserController` class to handle HTTP requests for managing inventory users. This class uses Spring Boot's `@RequestController` and `@RequestMapping` annotations to define an HTTP endpoint. We inject the `UserRepository` bean using the `@Autowired` annotation and use it to retrieve, create, update, and delete `User` objects. 
 
 ```java
-@Controller
-@RequestMapping("/items")
-public class ItemController {
-    @Autowired
-    private ItemRepository itemRepository;
+@RestController
+@RequestMapping("/user")
+public class UserController {
 
-    @GetMapping("")
-    public String list(Model model) {
-        List<Item> items = itemRepository.findAll();
-        model.addAttribute("items", items);
-        return "items/list";
+private UserDatabaseInterface userdb = new UserMemoryDatabase();
+
+@RequestMapping(
+        value = "/create",
+        method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<ResponseMsg> createUserAcc(@RequestBody User user) {
+    String unique = UUID.randomUUID().toString();
+    user.setIdAccount(unique);
+    boolean created = userdb.creatUser(unique, user);
+    if (created) {
+        return ResponseEntity.ok(new ResponseMsg("User account is created successfully!"));
     }
+    return ResponseEntity.notFound().build();
+}
 
-    @GetMapping("/new")
-    public String showNewForm(Model model) {
-        model.addAttribute("item", new Item());
-        return "items/new";
-    }
+ // other methods for getting, editing and deleting users
+// https://github.com/acapela000/WeatherForecastAPI/blob/basic-sql/src/main/java/com/charlieThao/weather_forcast_demo/controller/UserController.java
 
-    @PostMapping("")
-    public String create(@ModelAttribute("item") Item item) {
-        itemRepository.save(item);
-        return "redirect:/items";
-    }
-
-    // other methods for editing and deleting items
 }
 ```
 
-**5.** Creating some Thymeleaf templates to render the HTML views:
-
-- `items/list.html`: a template for listing all the inventory items.
-- `items/new.html`: a template for creating a new inventory item.
-
-These templates will use Thymeleaf's syntax to display the list of items and the form for creating a new item.
-
-With just a few lines of code, I've created a fully functional web application for managing inventory items, complete with database persistence, HTML rendering, and basic CRUD operations. We can continue to add more features and functionality using Spring Boot's extensive library of tools and frameworks.
+With just a few lines of code, I've created a fully functional web application for managing inventory items, complete with database persistence and basic CRUD operations. We can continue to add more features and functionality using Spring Boot's extensive library of tools and frameworks.
 
 ### 3. Microservices:
 **What is microservices ?**
 
-In the context of software development, microservices is an architectural style for building software applications as a collection of small, independent, and loosely-coupled services. Each microservice is designed to perform a specific business function and can communicate with other microservices through well-defined interfaces. This approach allows for greater scalability, flexibility, and resilience compared to traditional monolithic architectures.
+Microservices is an architectural style for building software applications as a collection of small, independent, and loosely-coupled services. Each microservice is designed to perform a specific business function and can communicate with other microservices through well-defined interfaces. This approach allows for greater scalability, flexibility, and resilience compared to traditional monolithic architectures.
 
 **Microservices in Spring Boot**
 
@@ -272,6 +301,8 @@ With this simple example, I've demonstrated how Spring Boot can be used to creat
 ### 4. Dependency Management:
 
 When developing an enterprise application, the task of managing dependencies can be quite daunting. Thankfully, Spring Boot provides a solution to this issue by efficiently managing all of the dependencies required by the application. For instance, when building a healthcare application, Spring Boot can be employed to manage the dependencies necessary for HIPAA compliance, including the HAPI FHIR library for FHIR API implementation.
+
+[More about HAPI FHIR - The Open Source FHIR API for Java](https://hapifhir.io/)
 
 With Spring Boot, developers can rest easy knowing that all dependencies required by the application are being expertly handled, thus streamlining the development process and making it simpler to manage and update dependencies.
 
