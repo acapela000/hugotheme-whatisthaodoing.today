@@ -68,29 +68,7 @@ dependencies {
 
 After initialize the app successfully, I started to write the server-side code that powers my web app. Here at the `back-end` I'll choose a database to store my data, and write code to handle user authentication, server-side rendering, and any other functionality required by my app. 
 
-I follow the structure of MVC Springboot so that at first I create `controller` call `Health-check`. I use this class to check the status of the `API`.
-
-```java
-@RestController
-public class HealthCheck {
-
-    @RequestMapping(value = "/health-check", method = RequestMethod.GET)
-    public String checkSttOfAPI() {
-        return "OK";
-    }
-}
-```
-
-If I run the url `localhost:8080` with the `endpoint` is the value `/health-check` I can check the api is working or not. If it works, it will return the message `OK`. 
-
-{{< figure src="/wf-app/health-check-OK.png" width="100%">}}
-
-Or else, it returns `Can't get the method`
-
-{{< figure src="/wf-app/.png" width="100%">}}
-
-
-**Installing dependencies**
+### Installing dependencies
 
 In order to use annotation: `@JsonSerialize` and `@JsonDeserialize`, I installed the `jackson` dependency from [maven repository](https://mvnrepository.com/).
 
@@ -113,6 +91,9 @@ var lombokVersion = "1.18.26"
 var postgreSQLVersion = "42.5.4"
 ```
 So that when needed to update the version, I just need to update the variable. It helps me save more time to look for where the dependency locate:smirk: among lots of other dependencies:fearful::sweat: like below for example.
+
+[My github's link of dependencies](https://github.com/acapela000/WeatherForecastAPI/blob/basic-sql/build.gradle)
+
 ```java
 dependencies {
 
@@ -143,6 +124,116 @@ dependencies {
 	implementation "org.postgresql:postgresql:${postgreSQLVersion}"
 }
 ```
+### Model
+I made `model` with attributes: `temperature`, `humidity`, `precipitation`, `condition`, `city`, `date`. And following the rule of Java, I created `constructor` with `getter` and `setter`. I'm using annotation `JsonSerialize` and `JsonProperty`.
+
+- `JsonSerialize`: 
+- `JsonProperty`:
+
+```java
+@JsonSerialize
+public class WeatherForecast {
+
+    @JsonProperty
+    private double temperature;
+    @JsonProperty
+    private double humidity;
+    @JsonProperty
+    private boolean precipitation;
+    @JsonProperty
+    private String condition;
+    @JsonProperty
+    private String city;
+    @JsonProperty
+    private Timestamp date;
+
+    public WeatherForecast() {
+    }
+
+    public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city) {
+        this(temperature, humidity, precipitation, condition, city, new Timestamp(new Date().getTime()));
+    }
+
+    public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city, Timestamp date) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.precipitation = precipitation;
+        this.condition = condition;
+        this.city = city;
+        this.date = date;
+    }
+
+	//getter and setter
+}
+```
+Here, in the second `constructor` I use `new Timestamp(new Date().getTime())` to get the current day.
+
+```java
+public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city) {
+        this(temperature, humidity, precipitation, condition, city, new Timestamp(new Date().getTime()));
+    }
+```
+
+And in the third constructor I pass all the attributes:
+
+```java
+public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city, Timestamp date) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.precipitation = precipitation;
+        this.condition = condition;
+        this.city = city;
+        this.date = date;
+    }
+```
+
+### Controller
+
+I follow the structure of MVC Springboot so that at first I create `controller` call `Health-check`. I use this class to check the status of the `API`.
+
+```java
+@RestController
+public class HealthCheck {
+
+    @RequestMapping(value = "/health-check", method = RequestMethod.GET)
+    public String checkSttOfAPI() {
+        return "OK";
+    }
+}
+```
+
+If I run the url `localhost:8080` with the `endpoint` is the value `/health-check` I can check the api is working or not. If it works, it will return the message `OK`. 
+
+{{< figure src="/wf-app/health-check-OK.png" width="100%">}}
+
+Or else, it returns `Can't get the method`
+
+{{< figure src="/wf-app/.png" width="100%">}}
+
+**SWAGGER**
+
+[Why we need `Swagger`?]()
+
+In order to use `Swagger`, I started to set up the dependency first.
+
+```java
+var swaggerVersion = "3.0.0"
+
+repositories {
+	// https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+	implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+}
+```
+
+`ResponseEntity` is used in Spring MVC as the return value from an @Controller method.
+
+[ResponseEntity Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html)
+
+`@Controller` and `@RequestMapping` annotations to define an HTTP endpoint for managing inventory items
+
+what is the difference between gradle and gradle (short) 
 
 Before using Swagger, I reccommend using `Insomnia` to check for the status of local server.
 
@@ -154,24 +245,12 @@ I create an `GET` method and send the url `http://localhost:8080/health-check`. 
 
 If it doesn't work, we need to first: check the internet connection, then check ???
 
-After checking everything is `OK`, I started to code by creating `Model`: `weatherforecast`
-
-**Controller**
-`ResponseEntity` is used in Spring MVC as the return value from an @Controller method.
-
-[ResponseEntity Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html)
-
-`@Controller` and `@RequestMapping` annotations to define an HTTP endpoint for managing inventory items
-
-**More content is uploading...**
-
-**SWAGGER**
-Why we need `Swagger`?
-
 **More content is uploading...**
 
 ## 4.Front-end development
 Once you have the back-end code in place, you'll need to create the user interface for your web app. This involves designing the layout and visual elements of your app using HTML, CSS, and JavaScript. You may want to use a front-end framework like React or Vue.js to simplify the process.
+
+{{< figure src="/wf-app/frontend-ontheway.png" width="100%">}}
 
 **More content is uploading...**
 
