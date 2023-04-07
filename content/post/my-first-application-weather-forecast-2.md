@@ -1,6 +1,6 @@
 +++
 author = "Thao"
-title = "My first application: Weather forecast CHAP.2"
+title = "My 1st application 'Weather forecast' CHAP.2: Installing dependencies and Adding basic model, controller, repository"
 emoji = ":sunny:  :umbrella:  :snowflake:  :leaves:"
 date = "2023-03-14"
 summary = "To develop the weather forecast application's backend, dependencies were installed, including essential libraries and frameworks. The fundamental components, such as the WeatherForecast model, controller, and database repository, were then created, with a MemoryDatabase used for optimal performance. The backend was efficiently configured and operational."
