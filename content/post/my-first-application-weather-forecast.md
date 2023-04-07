@@ -1,513 +1,24 @@
 +++
 author = "Thao"
-title = "My first application: Weather forecast"
-emoji = ":sunny:  :umbrella:  :snowflake:  :leaves:  :cloud:"
-date = "2023-03-12"
-summary = "Web app to check weather forecast at a certain location"
+title = "My first application: `Weather forecast` CHAP."
+emoji = ":sunny:  :umbrella:  :snowflake:  :leaves:"
+date = "2023-03-11"
+summary = "More content is uploading"
 tags = [
     "projects",
     "weather forecast",
     "My first APP",
 ]
 toc = true
-thumbnail = "https://cdn.dribbble.com/users/2438406/screenshots/9064361/weatherapp_dribbble_darkmode_v2_2x_4x.png"
+thumbnail = "https://cdn.dribbble.com/userupload/3907586/file/original-491db6fd55ae4d0c0b7a3d25392ba223.png?compress=1&resize=2048x1536&vertical=center"
 +++
 
 
-## 1. Introduction
-**The reason why `weather forecast application` ?**
+## 3.Backend development
 
-Hi, I'm a newcomer to the tech field and recently created my first personal project. As someone who is concerned about the weather, I decided to create a web application that provides users with up-to-date weather forecasts to help them prepare for their day.
+### Stage 7: Installing `Docker`
 
-To build my application, I used Spring Boot to create a RESTful API in Java, Docker to package my application and its dependencies, and PostgreSQL as my database. For the front-end, I used Next.js along with TypeScript and JavaScript, and used Tailwind for CSS styling.
-
-Overall, I'm really proud of the end result - a functional and user-friendly weather forecast application that utilizes a range of powerful and popular tools and technologies.
-
-## 2.Initializing a project
-### Creating Spring Boot app
-
-I used page [start.spring.io](https://start.spring.io/) and I initialized my app with srpingboot.
-
-{{< figure src="/wf-app/springboot.png" width="100%">}}
-
-All the dependencies I chose from `ADD DEPENDENCIES` will be display on the right of the page. 
-
-{{< figure src="/wf-app/springboot-page.png" width="100%">}}
-
-I used Java programming language so I chose `Gradle - Groovy` for the type of the project. Because 
-Gradle is a build automation tool that uses a Groovy-based DSL (Domain-Specific Language) or Kotlin as its build language. It is designed to be highly customizable and supports incremental builds, caching, and parallel execution. Gradle is a good choice for prefering a more flexible build system and wanting to work with a build tool that supports both Groovy and Kotlin. 
-
-*Some brief about the difference between type of projects:*
-
-`Gradle - Groovy`: which uses Gradle as the build tool and Groovy as the primary programming language. Groovy is a dynamic programming language that runs on the Java Virtual Machine (JVM). It is often used for scripting, automation, and testing, and has a syntax similar to Java.
-
-`Gradle - Kotlin`: which uses Gradle as the build tool and Kotlin as the primary programming language. Kotlin is a statically-typed programming language that also runs on the JVM. It is designed to be more concise and expressive than Java, while still maintaining full interoperability with Java code.
-
-`Maven`: is also a popular build tool for Java-based projects. Using Maven as the build tool, which is an older build automation tool compared to Gradle. Maven is XML-based project configuration file to manage dependencies, build steps, and other project-related settings, following a "convention over configuration" approach. This means that it has a set of pre-defined conventions and best practices to simplify the build process.
-
-{{< figure src="/wf-app/springboot-project-types.png" width="100%">}}
-
-There are lots of dependencies we can choose from the list. But at the time initializing the app, I only need `Spring wed` dependency so I chose it.
-
-{{< figure src="/wf-app/springboot-dependency.png" width="100%">}}
-
-I clicked on generate button and then I have an app written in Java. The good point about this site is that it automatically creates a folder in the place we want to store all the information/data base about the app.
-
-{{< figure src="/wf-app/springboot-generate.png" width="100%">}}
-
-I opened the project's folder in IntelliJ and went to `build.gradle` to check the dependency I chose and it will be:
-
-```java
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-```
-
-### Check API's status
-
-What is API health check? 
-
-It is a Rest(ful) API endpoint that checks the API itself and all critical dependencies. API health check endpoint returns the check result as the response. Software, QA, and Dev-ops teams use this endpoint to monitor the health of an API using a monitoring tool like Testfully.
-Following that at first I created `controller` call `Health-check`. I use this class to check the status of the `API`.
-
-```java
-@RestController
-public class HealthCheck {
-
-    @RequestMapping(value = "/health-check", method = RequestMethod.GET)
-    public String checkSttOfAPI() {
-        return "OK";
-    }
-}
-```
-
-If I run the url `localhost:8080` with the `endpoint` is the value `/health-check` I can check the api is working or not. If it works, it will return the message `OK`. 
-
-{{< figure src="/wf-app/health-check-OK.png" width="100%">}}
-
-Or else, it returns `Can't get the method`
-
-{{< figure src="/wf-app/.png" width="100%">}}
-
-[More about health-check](https://testfully.io/blog/api-health-check-monitoring/)
-[Reference: Health-check with Cloud Foundary](https://docs.cloudfoundry.org/devguide/deploy-apps/healthchecks.html)
-
-## 3.Back-end development
-
-After initialize the app successfully, I started to write the server-side code that powers my web app. Here at the `back-end` I'll choose a database to store my data, and write code to handle user authentication, server-side rendering, and any other functionality required by my app. 
-
-### Stage 1: Installing dependencies
-
-In order to use annotation: `@JsonSerialize` and `@JsonDeserialize`, I installed the `jackson` dependency from [maven repository](https://mvnrepository.com/).
-
-{{< figure src="/wf-app/jackson-databind.png" width="100%">}}
-
-I chose the latest version `jackson '2.14.2'`
-
-{{< figure src="/wf-app/jackson-version.png" width="100%">}} 
-
-After downloaded with `Gradle (short)`([why gradle short?]()), once again I went to check the dependency at `build.gradle`.
-
-{{< figure src="/wf-app/jackson-download.png" width="100%">}} 
-
-In order to manage and easier to update the versions of any dependencies, I made a variable `jacksonVersion` for each of the dependency and pass the parameter `${jacksonVersion}`.
-
-```java
-var jacksonVersion = "2.14.2"
-var swaggerVersion = "3.0.0"
-var lombokVersion = "1.18.26"
-var postgreSQLVersion = "42.5.4"
-```
-So that when needed to update the version, I just need to update the variable. It helps me save more time to look for where the dependency locate:smirk: among lots of other dependencies:fearful::sweat: like below for example.
-
-[My github's link of dependencies](https://github.com/acapela000/WeatherForecastAPI/blob/basic-sql/build.gradle)
-
-```java
-dependencies {
-
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-	//to serialize and deserialize json
-	implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-
-	// https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
-	implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
-	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
-	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
-
- 	//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-
-	// https://mvnrepository.com/artifact/org.projectlombok/lombok
-	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-	//to connect to database
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-rest
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-	// https://mvnrepository.com/artifact/org.postgresql/postgresql
-	implementation "org.postgresql:postgresql:${postgreSQLVersion}"
-}
-```
-
-### Stage 2: Basic model, controller, repository
-- Create `model`: `WeatherForecast`
-- Create `controller`: `GetForecast`
-- Create `repository`: `Database` and `Memorydatabase`
-
-{{< figure src="/wf-app/structure-1.png" width="50%">}} 
-
-**MODEL**
-
-**WeatherForecast**
-
-I made `model` called `WeatherForecast` with attributes: `temperature`, `humidity`, `precipitation`, `condition`, `city`, `date`. And following the rule of Java, I created `constructor` with `getter` and `setter`. I'm using annotation `JsonSerialize` and `JsonProperty`.
-
-- `JsonSerialize`: to convert an object to stream that we can send over the network or save it as file or store in database for later usage (from Java object into Json format).
-- `JsonDeserialize`:  to reconstruct an object stream from the serialized form to actual Java object(from Json format into Java object).
-- `JsonProperty`: be used to map property names with Json keys during serialization and deserialization.
-
-```java
-// https://github.com/acapela000/WeatherForecastAPI/blob/f7e5eeb8accad05c2a6df6d237fbf452031c467a/src/main/java/com/charlieThao/weather_forcast_demo/model/WeatherForecast.java
-
-@JsonSerialize
-public class WeatherForecast {
-
-    @JsonProperty
-    private double temperature;
-    @JsonProperty
-    private double humidity;
-    @JsonProperty
-    private boolean precipitation;
-    @JsonProperty
-    private String condition;
-    @JsonProperty
-    private String city;
-    @JsonProperty
-    private Timestamp date;
-
-    public WeatherForecast() {
-    }
-
-    public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city) {
-        this(temperature, humidity, precipitation, condition, city, new Timestamp(new Date().getTime()));
-    }
-
-    public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city, Timestamp date) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.precipitation = precipitation;
-        this.condition = condition;
-        this.city = city;
-        this.date = date;
-    }
-
-    // getter & setter
-}
-
-```
-
-Here, in the second `constructor` I use `new Timestamp(new Date().getTime())` to get the current date and time.
-
-```java
-public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city) {
-        this(temperature, humidity, precipitation, condition, city, new Timestamp(new Date().getTime()));
-    }
-
-```
-
-And in the third constructor I pass all the attributes and set up the value for each attributes:
-
-```java
-public WeatherForecast(double temperature, double humidity, boolean precipitation, String condition, String city, Timestamp date) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.precipitation = precipitation;
-        this.condition = condition;
-        this.city = city;
-        this.date = date;
-    }
-
-```
-
-**CONTROLLER**
-
-I created `GetForecast` class using annotation `@RestController` to specify this is `controller` and using `RequestMapping` to specify the `endpoint` by `/forecast`. 
-
-```java
-@RestController
-@RequestMapping("/forecast")
-public class GetForecast { 
-    // full code 
-    // https://github.com/acapela000/WeatherForecastAPI/blob/f7e5eeb8accad05c2a6df6d237fbf452031c467a/src/main/java/com/charlieThao/weather_forcast_demo/controller/GetForecast.java
-}
-```
-
-Because class `MemoryDatabase` implement from interface `Database` so I created a new object of `MemoryDatabase` to connect with the database:
-
-```java
-Database db = new MemoryDatabase();
-
-```
-
-Continously, using annotation `@RequestMapping` to specify the `endpoint` by `/today/{city}` with the method is `GET` and type of format is `JSON` through `produces`. The `url` at this time will be `http://localhost:3000/forcast/today/{city}`.
-
-- `@RequestMapping`: for mapping web requests onto methods in request-handling classes with flexible method signatures.
-- `produces`: Narrows the primary mapping by media types that can be produced by the mapped handler.
-- `value`: The primary mapping expressed by this annotation.
-
-[More about Annotation Interface RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html)
-
-```java
-@RequestMapping (
-            value = "/today/{city}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-
-```
-
-As you can see in the class, I'm using `getToday` in order to get the weather forecast on that day. By passing the variable `city` to the endpoint. If the program can not find any `weatherForecast` on that day, means that it's `null` then the program will return `not found` through function `notFound()`. Else, it returns that `weatherForecast` through function `ok()`.
-
-- `ResponseEntity`: representing the whole HTTP response: status code, headers, and body. As a result, we can use it to fully configure the HTTP response.
-- `notFound()`: Create a builder with a NOT_FOUND status.
-- `ok(body)`: A shortcut for creating a ResponseEntity with the given body and the status set to OK.
-
-[More about ResponseEntity](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html)
-
-```java
-public ResponseEntity<WeatherForecast> getToday(@PathVariable("city") String city) {
-        WeatherForecast weatherForecast = db.getWF(city);
-        if (weatherForecast == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(weatherForecast);
-    }
-
-```
-
-I'm using annotation `@RequestMapping` to specify the `endpoint` by `/week/{city}` with the method is `GET` and type of format is `JSON` through `produces`. The `url` at this time will be `http://localhost:3000/forcast/week/{city}`.
-
-```java
-@RequestMapping (
-            value = "/week/{city}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-
-```
-
-And then, I created a list of `forecast` by using  `ResponseEntity<List<WeatherForecast>>` for a `week` with function `getWeek`. With `@PathVariable`, I passed the varaiable `city` to the `url`. The method `getWeek` will return `null` when there is no weather forecast in a day being found.
-
-```java
-    public ResponseEntity<List<WeatherForecast>> getWeek(@PathVariable("city") String city) {
-        return null;
-    }
-
-```
-
-**REPOSITORY**
-
-**Database**
-
-In order to let the other class implement the method, I created the interface `Database` with 4 abstract methods: `createWF`, `updateWF`, `getWF`, `deleteWF` (WF means Weather Forecast) and pass needed variable for each of it. 
-
-```java
-// https://github.com/acapela000/WeatherForecastAPI/blob/f7e5eeb8accad05c2a6df6d237fbf452031c467a/src/main/java/com/charlieThao/weather_forcast_demo/repository/Database.java
-
-public interface Database {
-
-    public boolean createWF(String city, WeatherForecast weatherForecast);
-
-    public WeatherForecast updateWF(String city, WeatherForecast wf);
-
-    public WeatherForecast getWF(String city);
-
-    public boolean deleteWF(String city);
-}
-
-```
-
-**MemoryDatabase**
-
-I created some mock-data by using `hashmap` with the `key` is a `string` and the `value` is a `weather forecast`.
-
-```java
-public HashMap<String, WeatherForecast> weatherForecastList = new HashMap<String, WeatherForecast>() {
-        {
-            put("New York", new WeatherForecast(26.0, 25.0, false, "cloudy", "New York"));
-            put("Melbourn", new WeatherForecast(29.0, 20.0, true, "snowy", "Melbourn"));
-        }
-    };
-
-```
-
-The `MemoryDatabase` implement the `Database` so that it inherit all the method. I use annotation `@Override` to rewrite those methods as well as implement in details. The method `createWF` will return a `boolean` value `true` or `false`. If in the list `weatherForecastList` doesn't contain the `key` `city` that the we wanna create, it will put that `city` in the list and inform the user `true` or else `false`. For the `getWF` to display the list `weatherForecastList` by using function `get()` with the parameter `city`.
-
-```java
-public class MemoryDatabase implements Database {
-
-    @Override
-    public boolean createWF(String city, WeatherForecast wf) {
-       if (!weatherForecastList.containsKey(city)) {
-           weatherForecastList.put(city, wf);
-           return true;
-       }
-        return false;
-    }
-
-
-    @Override
-    public WeatherForecast getWF(String city) {
-        return weatherForecastList.get(city);
-    }
-
-    // update and delete method
-    // https://github.com/acapela000/WeatherForecastAPI/blob/f7e5eeb8accad05c2a6df6d237fbf452031c467a/src/main/java/com/charlieThao/weather_forcast_demo/repository/MemoryDatabase.java
-}
-
-```
-
-### Stage 3: Configurate Swagger
-
-**[Why we need `Swagger`?]()**
-
-Swagger helps users build, document, test and consume RESTful web services. It provides a user interface to access our RESTful web services via the web browser.
-
-In order to use `Swagger`, I started to set up the dependency first.
-
-```java
-var swaggerVersion = "3.0.0"
-
-repositories {
-	// https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
-	implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
-	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
-	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
-}
-```
-**Configurate Swagger with the code**
-
-I created class `SwaggerConfiguration` at `main/java...` to set up Swagger.
-
-{{< figure src="/wf-app/swagger-structure.png" width="100%">}}
-
-**Custom Information**
-
-Swagger also provides some default values in its response, which we can customize, such as “Api Documentation”, “Created by Contact Email”, and “Apache 2.0”.
-
-To change these values, we can use the apiInfo(ApiInfo apiInfo) method — the ApiInfo class that contains custom information about the API:
-
-```java
-// https://github.com/acapela000/WeatherForecastAPI/commit/82e648a11596856fa43a65bb41b9e66005ee5a6d
-
-@Configuration
-@EnableWebMvc
-public class SwaggerConfiguration {
-    private ApiInfo getInfo() {
-        return new ApiInfo(
-                "WeatherForecastAPI",
-                "This is the API for weather forecast",
-                "0.0.1",
-                " ",
-                new Contact("Charlie Thao", "https://github.com/acapela000/WeatherForecastAPI", "google@gmail.com"),
-                "MIT",
-                "https://github.com/acapela000/WeatherForecastAPI/blob/main/LICENSE.md",
-                "https://github.com/acapela000/WeatherForecastAPI/blob/master/LICENSE.md",
-                Collections.emptyList()
-        );
-    }
-}
-
-```
-
-**Advanced Configuration**
-
-The `Docket`` bean of our application can be configured to give us more control over the API documentation generation process.
-
-Filtering API for Swagger’s Response:
-
-It is not always desirable to expose the documentation for the entire API. We can restrict Swagger’s response by passing parameters to the `apis()` and `paths()` methods of the `Docket` class.
-
-As seen above, RequestHandlerSelectors allows using the any or none predicates but can also be used to filter the API according to the base package, class annotation, and method annotations.
-
-`PathSelectors` provides additional filtering with predicates, which scan the request paths of our application. We can use `any()`, `none()`, `regex()`, or `ant()`.
-
-<!-- In the example below, we will instruct Swagger to include only controllers from a particular package, with specific paths, using the `ant()` predicate: 
-```java
-@Bean
-public Docket api() {                
-    return new Docket(DocumentationType.SWAGGER_2)          
-      .select()                                       
-      .apis(RequestHandlerSelectors.basePackage("com.baeldung.web.controller"))
-      .paths(PathSelectors.ant("/foos/*"))                     
-      .build();
-}
-```
--->
-
-```java
-@Bean
-    public Docket swaggerAPI() {
-        return new Docket(DocumentationType.OAS_30)
-                .apiInfo(getInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-```
-While set up Swagger I conpacted some error with the `url`. I tried some `url` below:
-
-- `http://localhost:8080/swagger-ui/index.html#/`
-- `http://localhost:8080/swagger-ui/`
-
-[References: Most common errors when setting up Swagger](https://docs.bmc.com/docs/ars2105/troubleshooting-issues-when-using-swagger-as-a-rest-api-client-1002225210.html)
-
-
-### Stage 4: Add MIT License
-
-**Why need MIT License**
-
-Users of software using an MIT License are permitted to use, copy, modify, merge publish, distribute, sublicense and sell copies of the software.
-
-[More about MIT License](https://opensource.org/license/mit/)
-
-**Find official document on Github**
-
-Google search for `MIT License Github`, choose the `documents`
-
-{{< figure src="/wf-app/MIT-license-search.png" width="100%">}} 
-
-Go to `chooselicense`
-
-{{< figure src="/wf-app/MIT-license-docs.png" width="100%">}}
-
-and click to `MIT license`
-
-{{< figure src="/wf-app/choose-MIT-license.png" width="100%">}}
-
-And then I copied the text and put my name on that.
-
-[MIT License Text](https://choosealicense.com/licenses/mit/)
-
-{{< figure src="/wf-app/MIT-license-text.png" width="100%">}}
-
-**Set up the MIT License with the code**
-
-At the program, I created file `LICENSE.md` and pasted the editted text with my name on to that file.
-
-{{< figure src="/wf-app/license-md.png" width="40%">}}
-
-Then I went to Swagger to check how MIT License's information displayed. 
-
-{{< figure src="/wf-app/MIT-swagger.png" width="100%">}}
-
-### Stage 5: Configurate PostgreSQL
+### Stage 8: Configurate PostgreSQL
 
 **User**
 
@@ -847,15 +358,189 @@ If it doesn't work, we need to first: check the internet connection, then check 
 **More content is uploading...**
 
 ## 4.Front-end development
+
 Once I alomost have the back-end code in place, I created the user interface for my web app. This involves designing the layout and visual elements for my app, I'm using `TypeScript` to code fore frontend and render HTML as well as using `Tailwind` for css part. Besides that, I also use a front-end framework like NextJs to simplify the process.
 
 Temporary layout for desktop's screen.
+
+{{< figure src="/wf-app/desktop-screen-landing-p.png" width="100%">}}
 
 {{< figure src="/wf-app/desktop-screen.png" width="100%">}}
 
 I also tested the screen for the phone in order to make `grid` better between desktop screen and phone's layout.
 
 {{< figure src="/wf-app/phone-screen-test.jpg" width="80%">}}
+**Get current location**
+
+I search on google the way how to get the current location without using the Google Geo-API because it's not free. 
+
+{{< figure src="/wf-app/gg-geoapi.png" width="100%">}}
+
+I found the page `freecodecamp` and I follow their instruction. But I can only get `latitude` and `longitude`.
+
+- [`freecodecamp`](https://www.freecodecamp.org/news/how-to-get-user-location-with-javascript-geolocation-api/)
+
+Then I attempted to search more about the way how to get the country, city, name, etc I found the page from Medium. I followed the instruction but I set up the attribute with `ip` and `country`. Because I read the [Geo-Location Databse](https://geolocation-db.com/json/) return the value `"country_code"`, `"country_name"`.
+
+- [`Medium: How to get user IP address in React JS`](https://medium.com/how-to-react/how-to-get-user-ip-address-in-react-js-73eb295720d0)
+
+```ts
+// https://github.com/acapela000/WeatherForecastFrontend/commit/e6af930e7afc9201152fa70f9eb88a8132a7dfbb
+
+interface GeoIP {
+  ip: string;
+  country: string;
+}
+
+```
+
+Then I got it, I got the current `country` and `ip`.
+
+{{< figure src="/wf-app/country-ip.png" width="80%">}}
+
+At that time, I feel OK with the result but before come to bed, I think "why don't I try to find more" to get the `city`, `country`, `state` (region) as I already set up in the backend. Then I search and search, then I found this page.
+
+[Detect Location](https://blog.logrocket.com/detect-location-and-local-timezone-of-users-in-javascript-3d9523c011b9/)
+
+Inside this page, I `meet` the one that I pretty like it [IP Info](ipinfo.io). Use it with `json` format and boooom I have it. I feel so happy when I found it.
+
+{{< figure src="/wf-app/country-state-city.png" width="80%">}}
+
+Last step I need to do is to reset the attributes.
+
+```js
+// https://github.com/acapela000/WeatherForecastFrontend/commit/b865ff735d3061de003e1f71510e15d23b46a335
+
+interface GeoIP {
+    country: string;
+    city: string;
+    state: string
+  }
+
+  // code...
+
+  .then((json) => {
+        const currentGeoIP: GeoIP = {
+            country: json.country, 
+            city: json.city, 
+            state: json.region}
+        setGeoIP(currentGeoIP)
+        return currentGeoIP;
+      })
+
+```
+
+I thought that it will be displayed on the app but nooo it's empty and I know I may meet some error. I inspected the page, check what is happening here?!!
+
+{{< figure src="/wf-app/ipinfo-429.png" width="80%">}}
+
+There it is! 429 error!! But what type of error it is :D ?
+
+{{< figure src="/wf-app/what-is-429.png" width="80%">}}
+
+From the error's definition I know that some how the ip is not working well with the set up code. I check more on the inspect
+
+{{< figure src="/wf-app/429-error.png" width="80%">}}
+
+{{< figure src="/wf-app/inspect-network.png" width="80%">}}
+
+then at `Network` \ `Preview`, I found this message: "You've hit the daily limit for the unauthenticated API. Create an API access token by signing up to get 50k req/month.". 
+
+{{< figure src="/wf-app/inspect-network-message.png" width="80%">}}
+
+It's funny that I found out the whole process I work with `ipinfo.io` but I haven't sing-in :D. I immediately went to the page and sing-in and get the token.
+
+{{< figure src="/wf-app/ipinfo-token.png" width="80%">}}
+
+Due to security, I created an `env` call `LOCATION_TOKEN` and went to `GetCurrentLocation()` to change the `url` of `fetch()`.
+
+```ts
+// https://github.com/acapela000/WeatherForecastFrontend/commit/b865ff735d3061de003e1f71510e15d23b46a335
+
+fetch(`https://ipinfo.io/json?token=${process.env.LOCATION_TOKEN}`)
+
+```
+
+Then after the fixing error process, finnaly I got it. The status is `200` and the current location is displayed as well: `country`: `JP`, `state`: `Kanagawa`, `city`: `Yokohama`.
+
+{{< figure src="/wf-app/add-token.png" width="80%">}}
+
+**Convert country code into country name**
+
+Because I wanna get current location with `city`, `country`, `state` so I use `ipinfo.io/json`. But the provided country is in `country code` then I attempted to convert it to `country name`.
+
+{{< figure src="/wf-app/ip-info.png" width="80%">}}
+
+I search for the list of country code to country name and intended to use it but later than that I regconized it's just a list, not a library so I can't use it.
+
+- `https://www.iban.com/country-codes`
+- `https://www.nationsonline.org/oneworld/country_code_list.htm`
+
+{{< figure src="/wf-app/country-code-name-libsearch.png" width="80%">}}
+
+Then I remember about the post I wrote about the open source code from Xtranlation ([Reach the post here](https://whatisthaodoing.today/post/my-first-journey-with-hotfix-of-vietnamese-flag-on-xtranslation-chap.1/)), some resemble to the one that I wanna do. Then I started to create a list of country code to country name.
+
+[Thank to the country code<=>name's source](https://gist.github.com/themeteorchef/dcffd74ca3ab45277c81#file-javascript-iso-country-code-to-country-name-conversion)
+
+```ts
+// https://github.com/acapela000/WeatherForecastFrontend/blob/main/src/lib/location/GetCountryName.tsx
+
+const alpha2CountryCodeList: Record<string, string> = {
+    // list of country code to country name
+}
+
+```
+Then I convert it. Here I set up the default value for the variable `countryCode`. If any `country code` is excluded from the list, the defalut value will be a string of `alpha-2` of `country code` by `[countryCode] ?? countryCode`.
+
+```ts
+export function GetCountryName(countryCode: string): string {
+    return alpha2CountryCodeList[countryCode] ?? countryCode;
+}
+
+```
+
+Then I went to `GetCurrentLocation` to change the variable from `country: json.country` into this:
+
+```ts
+// https://github.com/acapela000/WeatherForecastFrontend/blob/main/src/lib/location/GetCurrentLocation.tsx
+
+const currentGeoIP: GeoIP = {
+          country: GetCountryName(json.country),
+          city: json.city,
+          state: json.region
+        }
+
+```
+
+And here is the result:
+
+{{< figure src="/wf-app/convert-result.png" width="100%">}}
+
+**Deploy to vercel after adding current location**
+
+I meet the `403 error` when I checked the deployment. The information of `current location` is not displayed.
+
+{{< figure src="/wf-app/vercel-current-location.png" width="100%">}}
+
+I searched for `403 error` and check the `ip` status in local host. Everything is OK. So why? what is happening here?
+
+{{< figure src="/wf-app/what-is-403.png" width="100%">}}
+
+So the `ipinfo` works well, in local host the current location is displayed as well. That means I miss something between the `server` and the `app`. Then I remember that I created an `env` before but I forgot to create an `enviroment variables` in vercel platform :D. Then instantly I went to the page to make it.
+
+{{< figure src="/wf-app/vercel-env.png" width="100%">}}
+
+Then waitingggggg for deployment again.
+
+{{< figure src="/wf-app/vercel-current-location-building.png" width="100%">}}
+
+Then finally, the deployment is successful.
+
+{{< figure src="/wf-app/vercel-current-location-ok.png" width="100%">}}
+
+[Check the app here](https://weather-forecast.whatisthaodoing.today/)
+
+{{< figure src="/wf-app/vercel-current-location-layout.png" width="100%">}}
 
 **More content is uploading...**
 
@@ -922,7 +607,7 @@ and I found one. I felt very happy and excited when I found `render` platform. I
 
 Oh, but stop for a minute... the journey of deployment is officially start from now.
 
-
+### deploy with render
 
 **More content is uploading...**
 
