@@ -1,6 +1,6 @@
 +++
 author = "Thao"
-title = "My first application: Weather forecast CHAP.3"
+title = "My 1st application "Weather forecast" CHAP.3: Configuration of Swagger and Adding MIT License"
 emoji = ":sunny:  :umbrella:  :snowflake:  :leaves:"
 date = "2023-03-16"
 summary = "In the third stage, Swagger was set up for RESTful web services development, while in the fourth stage, the permissive MIT license was added to the project. The Swagger configuration included custom information about the API, such as name, version, author, and license, and the MIT license specified the conditions for use, distribution, and modification of the code without significant legal restrictions."
