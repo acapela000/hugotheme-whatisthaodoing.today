@@ -8,15 +8,18 @@ tags = [
     "projects",
     "weather forecast",
     "My first APP",
+    "backend",
 ]
 toc = true
 thumbnail = "https://cdn.dribbble.com/users/1503026/screenshots/15321987/weather_app_neumorphism_4x.png"
 +++
 
 
+If you haven't read it yet, in the [previous chapter](https://whatisthaodoing.today/post/my-1st-application-weather-forecast-chap.1-initializing-a-project/), I shared my inspiration for developing a weather forecasting web app and the cutting-edge tools I used to build it. Now, in chapter 2, I will talk about the technical aspects of backend development. Specifically, I will share my experience installing dependencies and adding a basic model, controller, and repository to lay the foundation for the app's functionality. So let's dive into the details of how I brought my vision to life.
+
 ## 3.Backend development
 
-After initialize the app successfully, I started to write the server-side code that powers my web app. Here at the `back-end` I'll choose a database to store my data, and write code to handle user authentication, server-side rendering, and any other functionality required by my app. 
+After initialize the app successfully, I started to write the server-side code that powers my web app. Here at the `backend` I'll choose a database to store my data, and write code to handle user authentication, server-side rendering, and any other functionality required by my app. 
 
 ### Stage 1: Installing dependencies
 
@@ -78,9 +81,10 @@ dependencies {
 ### Stage 2: Basic model, controller, repository
 - Create `model`: `WeatherForecast`
 - Create `controller`: `GetForecast`
-- Create `repository`: `Database` and `Memorydatabase`
+- Create `repository`: `Database` and `Memorydatabase`. Why do I need to create the two of these classes? (Check at `repository` part)
 
 {{< figure src="/wf-app/structure-1.png" width="50%">}} 
+ 
 
 **MODEL**
 
@@ -231,6 +235,8 @@ And then, I created a list of `forecast` by using  `ResponseEntity<List<WeatherF
 ```
 
 **REPOSITORY**
+
+Why do I need to create the two of these classes? Because at first I focused on `model` and `controller`. The `controller` will get the information from the database and in order to check that process is working or not, I need to created the mock-data in `MemoryDatabase`.
 
 **Database**
 
