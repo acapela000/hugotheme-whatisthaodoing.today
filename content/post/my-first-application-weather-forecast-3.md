@@ -8,11 +8,14 @@ tags = [
     "projects",
     "weather forecast",
     "My first APP",
+    "backend",
 ]
 toc = true
 thumbnail = "https://cdn.dribbble.com/users/2073053/screenshots/15220605/media/f07d2d6520f1720fbfcd2eb039daeee9.jpg?compress=1&resize=1600x1200&vertical=top"
 +++
 
+
+In [chapter 1](https://whatisthaodoing.today/post/my-1st-application-weather-forecast-chap.1-initializing-a-project/), I talked about my inspiration for developing a weather forecasting web app and the cutting-edge tools I used to build it. [Chapter 2](https://whatisthaodoing.today/post/my-1st-application-weather-forecast-chap.2-installing-dependencies-and-adding-basic-model-controller-repository/) discussed the technical aspects of backend development, including installing dependencies and adding a basic model, controller, and repository. Now, in chapter 3, I will share how I configured Swagger and added an MIT license to the app. These steps helped to ensure the app's functionality and legality, making it ready for deployment. So let's take a closer look at how I achieved these important milestones.
 
 ## 3.Backend development
 
@@ -20,7 +23,7 @@ thumbnail = "https://cdn.dribbble.com/users/2073053/screenshots/15220605/media/f
 
 **[Why we need `Swagger`?]()**
 
-`Swagger helps users build, document, test and consume RESTful web services. It provides a user interface to access our RESTful web services via the web browser.`
+> Swagger helps users build, document, test and consume RESTful web services. It provides a user interface to access our RESTful web services via the web browser.
 
 In order to use `Swagger`, I started to set up the dependency first.
 
