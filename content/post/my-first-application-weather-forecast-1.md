@@ -71,7 +71,7 @@ dependencies {
 
 What is API health check? 
 
-`It is a RESTful API endpoint that checks the API itself and all critical dependencies. API health check endpoint returns the check result as the response. Software, QA, and Dev-Ops teams use this endpoint to monitor the health of an API using a monitoring tool like Testfully.`
+> It is a RESTful API endpoint that checks the API itself and all critical dependencies. API health check endpoint returns the check result as the response. Software, QA, and Dev-Ops teams use this endpoint to monitor the health of an API using a monitoring tool like Testfully.
 
 Following that, at first, I created `controller` call `Health-check`. I use this class to check the status of the `API`.
 
