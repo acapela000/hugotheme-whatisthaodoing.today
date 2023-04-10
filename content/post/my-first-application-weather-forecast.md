@@ -1,6 +1,6 @@
 +++
 author = "Thao"
-title = "My first application: `Weather forecast` CHAP."
+title = "My first application: `Weather forecast' CHAP."
 emoji = ":sunny:  :umbrella:  :snowflake:  :leaves:"
 date = "2023-03-11"
 summary = "More content is uploading"
@@ -8,6 +8,7 @@ tags = [
     "projects",
     "weather forecast",
     "My first APP",
+    "backend",
 ]
 toc = true
 thumbnail = "https://cdn.dribbble.com/userupload/3907586/file/original-491db6fd55ae4d0c0b7a3d25392ba223.png?compress=1&resize=2048x1536&vertical=center"
